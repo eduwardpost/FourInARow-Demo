@@ -1,0 +1,8 @@
+<div class="board">    
+    <div class="column" *ngFor="let column of board; let x=index">
+        <div class="cell" *ngFor="let coin of column; let y=index">
+            {{x}},{{y}}
+            <coin [coin]="coin"></coin>
+        </div>
+    </div>
+</div>

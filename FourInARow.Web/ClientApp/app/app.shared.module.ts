@@ -8,11 +8,13 @@ import { AppComponent } from './components/app/app.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { GameboardComponent } from './components/gameboard/gameboard.component';
 import { GameService } from './services/game.service';
+import { CoinComponent } from './components/coin/coin.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        GameboardComponent
+        GameboardComponent,
+        CoinComponent
     ],
     providers: [
         GameService

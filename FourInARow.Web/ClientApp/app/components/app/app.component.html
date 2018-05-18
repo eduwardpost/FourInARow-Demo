@@ -1,7 +1,16 @@
 <div class='container-fluid'>
     <div class='row'>
         <div class='col-sm-12 body-content'>
-        
+            <h1>Four in a row</h1>
+            <div  style="margin-bottom: 20px;">
+                <button>(Re)start game</button>
+                <span>It's player's {{playerLabel}} turn</span>
+                Columns: <input type="number" name="columns" id="columns" value="6">
+                Rows: <input type="number" name="rows" id="rows" value="7">
+            </div>
+            <gameboard [aiEnabled]="aiEnabled" [rows]="rows" [columns]="columns">
+
+            </gameboard>
         </div>
     </div>
 </div>
