@@ -9,6 +9,10 @@
             Owner = owner;
         }
 
+        public override string ToString()
+        {
+            return Owner == Owner.PlayerOne ? "1" : "2";
+        }
     }
 
     public enum Owner

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace FourInARow.Logic.Models
 {
@@ -30,6 +31,14 @@ namespace FourInARow.Logic.Models
             _colums = colums;
             _rows = rows;
             Reset();
+        }
+
+        private GameBoard(int colums, int rows, Coin[][] board, int turnsPlayed)
+        {
+            _colums = colums;
+            _rows = rows;
+            _board = board;
+            _turnsPlayed = turnsPlayed;
         }
 
         /// <summary>
@@ -74,13 +83,16 @@ namespace FourInARow.Logic.Models
             if (_board[x][y] != null)
                 return false;
 
-            
+
             //lets make sure y is the correct y, perhaps the coin needs to drop more, or move up
             for (var i = 0; i < _rows; i++)
             {
                 var coin = GetCoinOnPosition(x, i);
                 if (coin == null)
+                {
                     y = i;
+                    break;
+                }
             }
 
             _board[x][y] = new Coin(owner);
@@ -93,9 +105,9 @@ namespace FourInARow.Logic.Models
         private void UpdateState(int x, int y)
         {
             //if there are less then 7 turns played then there can be no winner just yey, so we skip the winning logic
-            if(_turnsPlayed < 7)
+            if (_turnsPlayed < 7)
                 return;
-            
+
             //Stone placed in top row, calculating if we have a tie is fastes way to the finish
             if (y == _rows - 1 && IsTie())
             {
@@ -169,7 +181,7 @@ namespace FourInARow.Logic.Models
                     if (i >= _rows)
                         break;
 
-                    if (GetCoinOnPosition(i, y).Owner == owner)
+                    if (GetCoinOnPosition(x, i)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -182,7 +194,7 @@ namespace FourInARow.Logic.Models
                     if (i < 0)
                         break;
 
-                    if (GetCoinOnPosition(i, y).Owner == owner)
+                    if (GetCoinOnPosition(x, i)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -199,7 +211,7 @@ namespace FourInARow.Logic.Models
                     if (i >= _colums)
                         break;
 
-                    if (GetCoinOnPosition(x, i).Owner == owner)
+                    if (GetCoinOnPosition(i, y)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -212,7 +224,7 @@ namespace FourInARow.Logic.Models
                     if (i < 0)
                         break;
 
-                    if (GetCoinOnPosition(x, i).Owner == owner)
+                    if (GetCoinOnPosition(i, y)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -229,7 +241,7 @@ namespace FourInARow.Logic.Models
                     if (x + i >= _rows || y + i >= _colums)
                         break;
 
-                    if (GetCoinOnPosition(x + i, y + i).Owner == owner)
+                    if (GetCoinOnPosition(x + i, y + i)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -242,7 +254,7 @@ namespace FourInARow.Logic.Models
                     if (x - i < 0 || y - i < 0)
                         break;
 
-                    if (GetCoinOnPosition(x - i, y - i).Owner == owner)
+                    if (GetCoinOnPosition(x - i, y - i)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -259,7 +271,7 @@ namespace FourInARow.Logic.Models
                     if (x + i >= _rows || y - i < 0)
                         break;
 
-                    if (GetCoinOnPosition(x + i, y - i).Owner == owner)
+                    if (GetCoinOnPosition(x + i, y - i)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -272,7 +284,7 @@ namespace FourInARow.Logic.Models
                     if (x - i < 0 || y + i >= _colums)
                         break;
 
-                    if (GetCoinOnPosition(x - i, y = i).Owner == owner)
+                    if (GetCoinOnPosition(x - i, y = i)?.Owner == owner)
                         coins++;
                     else
                         break;
@@ -361,6 +373,34 @@ namespace FourInARow.Logic.Models
             DiagonalUpRight,
             DiagonalDownLeft,
             DiagonalDownRight,
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            for (var x = 0; x < _colums; x++)
+            {
+                for (var y = 0; y < _rows; y++)
+                {
+                    var coin = _board[x][y];
+                    sb.Append(coin?.ToString() ?? "0");
+                }
+
+                sb.AppendLine();
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Get a copy of the gameboard in its current state
+        /// </summary>
+        /// <returns></returns>
+        public GameBoard CopyBoard()
+        {
+            //we need to make a copy of the board so that the changes performed to the copy do not affect the actual board
+            var board = _board.Select(x => x.ToArray()).ToArray();
+            return new GameBoard(_colums, _rows, board, _turnsPlayed);
         }
     }
 
