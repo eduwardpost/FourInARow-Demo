@@ -35,6 +35,10 @@ export class GameboardComponent implements OnInit, OnChanges {
         }
      }
 
+     public setOwner(coin: Coin, owner: number) {
+        coin.owner = owner;
+     }
+
      ngOnChanges(changes: SimpleChanges) {
         this.setBoard();
       }

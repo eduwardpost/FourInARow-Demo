@@ -15,9 +15,9 @@
 <div class="board">    
     <div class="column" *ngFor="let column of board; let x=index">
         <div *ngFor="let coin of column; let y=index">
-            <div class="cell" [ngClass]="{'free': coin.owner == -1, 'one' : coin.owner == 1, 'two' : coin.owner == 2}">
+            <div class="cell" [ngClass]="{'free': coin.owner == -1, 'one' : coin.owner == 1, 'two' : coin.owner == 2}" (click)="setOwner(coin, 1)">
                 {{x}},{{y}} {{coin.owner}}
-                <coin [coin]="coin" (click)="setOwner(1)"></coin>
+                <coin [coin]="coin"></coin>
             </div>
         </div>
     </div>

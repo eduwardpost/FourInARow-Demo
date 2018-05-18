@@ -19,10 +19,6 @@ export class CoinComponent implements OnInit {
         
     }
 
-    public setOwner(owner: number) {
-        this.coin.owner = owner;
-    }
-
     ngOnInit(): void {
         
      }
