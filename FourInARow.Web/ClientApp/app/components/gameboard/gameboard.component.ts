@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { Coin } from '../../models/coin';
 
@@ -7,7 +7,7 @@ import { Coin } from '../../models/coin';
     templateUrl: './gameboard.component.html',
     styleUrls: ['./gameboard.component.css']
 })
-export class GameboardComponent implements OnInit {
+export class GameboardComponent implements OnInit, OnChanges {
 
     @Input() aiEnabled: boolean;
     @Input() columns: number;
@@ -22,6 +22,10 @@ export class GameboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
+       
+     }
+
+     setBoard() {
         this.board = []
         for(var x: number = 0; x < this.columns; x++) {
             this.board[x] = [];
@@ -30,4 +34,9 @@ export class GameboardComponent implements OnInit {
             }
         }
      }
+
+     ngOnChanges(changes: SimpleChanges) {
+        this.setBoard();
+      }
+      
 }

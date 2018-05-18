@@ -1,8 +1,24 @@
+
+<style>
+    .cell.free:hover {
+        background-color: red;
+    }
+    .cell.one {
+        background-color: red;        
+    }
+    
+    .cell.two {
+        background-color: yellow;        
+    }
+</style>
+
 <div class="board">    
     <div class="column" *ngFor="let column of board; let x=index">
-        <div class="cell" *ngFor="let coin of column; let y=index">
-            {{x}},{{y}}
-            <coin [coin]="coin"></coin>
+        <div *ngFor="let coin of column; let y=index">
+            <div class="cell" [ngClass]="{'free': coin.owner == -1, 'one' : coin.owner == 1, 'two' : coin.owner == 2}">
+                {{x}},{{y}} {{coin.owner}}
+                <coin [coin]="coin" (click)="setOwner(1)"></coin>
+            </div>
         </div>
     </div>
 </div>
